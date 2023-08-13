@@ -48,13 +48,13 @@ namespace chgen
 			int c = px % 3;
 			switch (c)
 			{
-			case 0: 
+			case 0:
 				in = r;
 				break;
-			case 1: 
+			case 1:
 				in = g;
 				break;
-			case 2: 
+			case 2:
 				in = b;
 				break;
 			}
@@ -67,7 +67,7 @@ namespace chgen
 			int index = (py * 768 + px) * 3;
 			if (py >= top_y)
 			{
-				
+
 				switch (c)
 				{
 				case 0:
@@ -95,6 +95,13 @@ namespace chgen
 			}
 		}
 	}
+}
+
+int chgen::CudaCount()
+{
+	int c = 0;
+	cudaGetDeviceCount(&c);
+	return c;
 }
 
 chgen::ColourHistogramGen::ColourHistogramGen()

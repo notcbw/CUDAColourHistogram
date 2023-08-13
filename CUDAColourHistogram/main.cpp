@@ -105,6 +105,12 @@ void GenerateStatsCsv(const fs::path& fpath)
 
 int main(int argc, char* argv[])
 {
+	if (chgen::CudaCount() < 1)
+	{
+		std::cout << "CUDA-capable device not found! Exiting" << std::endl;
+		return 1;
+	}
+
 	fs::path path;
 	bool histogram;
 

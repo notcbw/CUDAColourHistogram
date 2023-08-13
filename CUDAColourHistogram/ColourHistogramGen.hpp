@@ -4,6 +4,8 @@
 
 namespace chgen
 {
+	int CudaCount();
+
 	struct ColourStats
 	{
 		uint32_t r[256];
