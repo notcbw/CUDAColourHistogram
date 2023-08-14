@@ -150,19 +150,26 @@ int main(int argc, char* argv[])
 	}
 
 	/* process every image file in the list */
-	chgen::ColourHistogramGen gen;
-	if (histogram)
+	try
 	{
-		
-		for (const fs::path& img : imgfiles)
-			GenerateHistogram(gen, img);
+		chgen::ColourHistogramGen gen;
+		if (histogram)
+		{
+
+			for (const fs::path& img : imgfiles)
+				GenerateHistogram(gen, img);
+		}
+		else
+		{
+			for (const fs::path& img : imgfiles)
+				GenerateStatsCsv(gen, img);
+		}
 	}
-	else 
+	catch (const std::exception& exc)
 	{
-		for (const fs::path& img : imgfiles)
-			GenerateStatsCsv(gen, img);
+		std::cerr << exc.what();
+		return 1;
 	}
 	
-
 	return 0;
 }
