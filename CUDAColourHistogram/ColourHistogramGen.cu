@@ -131,6 +131,11 @@ chgen::ColourHistogramGen::ColourHistogramGen()
 	cudaMemset(gpu_stats_r, 0, 256 * sizeof(uint32_t));
 	cudaMemset(gpu_stats_g, 0, 256 * sizeof(uint32_t));
 	cudaMemset(gpu_stats_b, 0, 256 * sizeof(uint32_t));
+
+	/* allocate histogram memory */
+	hist_buf = (uint8_t*)malloc(768 * 320 * 3 * sizeof(uint8_t));
+	if (hist_buf == nullptr)
+		throw std::runtime_error("Failed to allocate histogram memory");
 }
 
 chgen::ColourHistogramGen::~ColourHistogramGen()
@@ -214,9 +219,6 @@ std::unique_ptr<chgen::Image> chgen::ColourHistogramGen::GetHistogramImage()
 	dim3 block_dim(32, 32);
 	dim3 grid_dim(24, 10);
 	kStatsToImage<<<grid_dim, block_dim>>>(gpu_stats_r, gpu_stats_g, gpu_stats_b, max, im_gpu);
-
-	/* allocate memory */
-	hist_buf = (uint8_t*)malloc(768 * 320 * 3 * sizeof(uint8_t));
 
 	/* copy image data */
 	err = cudaMemcpy(hist_buf, im_gpu, 768 * 320 * 3 * sizeof(uint8_t), cudaMemcpyDeviceToHost);

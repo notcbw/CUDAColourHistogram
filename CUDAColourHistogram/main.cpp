@@ -29,7 +29,7 @@ bool CheckSupportedExt(const fs::path& fpath)
 
 // function to generate the histogram image under the same directory of the file
 // format of the histogram is hardcoded as png
-void GenerateHistogram(const fs::path& fpath)
+void GenerateHistogram(chgen::ColourHistogramGen gen, const fs::path& fpath)
 {
 	/* open image */
 	sail::image im(fpath.string());
@@ -47,7 +47,6 @@ void GenerateHistogram(const fs::path& fpath)
 	};
 
 	/* generate the histogram */
-	chgen::ColourHistogramGen gen;
 	gen.Analyse(im_to_analyse);
 	std::unique_ptr<chgen::Image> hist = gen.GetHistogramImage();
 
@@ -66,7 +65,7 @@ void GenerateHistogram(const fs::path& fpath)
 	std::cout << "Processed: " << fpath.string() << std::endl;
 }
 
-void GenerateStatsCsv(const fs::path& fpath)
+void GenerateStatsCsv(chgen::ColourHistogramGen gen, const fs::path& fpath)
 {
 	/* open image */
 	sail::image im(fpath.string());
@@ -84,7 +83,6 @@ void GenerateStatsCsv(const fs::path& fpath)
 	};
 
 	/* generate the stats */
-	chgen::ColourHistogramGen gen;
 	gen.Analyse(im_to_analyse);
 	std::unique_ptr<struct chgen::ColourStats> stats = gen.GetColourStats();
 
@@ -152,15 +150,17 @@ int main(int argc, char* argv[])
 	}
 
 	/* process every image file in the list */
+	chgen::ColourHistogramGen gen;
 	if (histogram)
 	{
+		
 		for (const fs::path& img : imgfiles)
-			GenerateHistogram(img);
+			GenerateHistogram(gen, img);
 	}
 	else 
 	{
 		for (const fs::path& img : imgfiles)
-			GenerateStatsCsv(img);
+			GenerateStatsCsv(gen, img);
 	}
 	
 
