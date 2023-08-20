@@ -14,6 +14,20 @@ Sail is used as the image decoding library so that it supports multiple image fo
 - CUDA Toolkit 12.1
 - Sail 0.9.0-rc3 [\(https://github.com/HappySeaFox/sail/tree/master\)](https://github.com/HappySeaFox/sail/tree/master)
 
+## Running the Program
+
+### Generating colour histograms for a folder
+
+```
+CUDAColourHistogram -g <path to folder>
+```
+
+### Generating colour statistics csv for a folder
+
+```
+CUDAColourHistogram -s <path to folder>
+```
+
 ## License
 
 MIT License
